@@ -1,0 +1,1 @@
+const {get,del}=require('../../../../../lib/redis'); export default async function handler(req,res){if(req.method!=='GET')return res.status(405).end();const raw=await get('cli:'+req.query.code);if(!raw)return res.status(404).json({error:'Login code expired'});const data=JSON.parse(raw);if(data.status==='complete')await del('cli:'+req.query.code);return res.json(data)}
