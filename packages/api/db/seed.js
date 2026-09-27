@@ -1,0 +1,2 @@
+const {pool}=require('./index');
+(async()=>{try{await pool.query('INSERT INTO users(email,github_id,github_username,plan) VALUES($1,$2,$3,$4) ON CONFLICT(email) DO NOTHING',['dev@webblink.local',999999,'webblink-dev','free']);console.log('Seed complete')}finally{await pool.end()}})().catch(e=>{console.error(e);process.exit(1)});
