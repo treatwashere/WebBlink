@@ -1,0 +1,2 @@
+const {randomState,saveOAuthState}=require('../../../lib/auth');
+export default async function handler(req,res){if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});const state=randomState();await saveOAuthState(state,{createdAt:Date.now()});const p=new URLSearchParams({client_id:process.env.GITHUB_CLIENT_ID,redirect_uri:process.env.GITHUB_REDIRECT_URI,state,scope:'repo user:email'});res.redirect('https://github.com/login/oauth/authorize?'+p.toString())}
