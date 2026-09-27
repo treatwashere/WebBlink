@@ -1,0 +1,6 @@
+const {query}=require('../db');
+async function getUserById(id){const r=await query('SELECT id,email,github_id,github_username,avatar_url,plan,stripe_customer_id,created_at,updated_at FROM users WHERE id=$1',[id]);return r.rows[0]||null}
+async function getUserByGithubId(id){const r=await query('SELECT * FROM users WHERE github_id=$1',[id]);return r.rows[0]||null}
+async function getUserByEmail(email){const r=await query('SELECT * FROM users WHERE email=$1',[email]);return r.rows[0]||null}
+async function updateOrCreateUser(u){const r=await query('INSERT INTO users(email,github_id,github_username,github_token,avatar_url) VALUES($1,$2,$3,$4,$5) ON CONFLICT(github_id) DO UPDATE SET email=EXCLUDED.email,github_username=EXCLUDED.github_username,github_token=EXCLUDED.github_token,avatar_url=EXCLUDED.avatar_url,updated_at=NOW() RETURNING *',[u.email,u.github_id,u.github_username,u.github_token,u.avatar_url]);return r.rows[0]}
+module.exports={getUserById,getUserByGithubId,getUserByEmail,updateOrCreateUser};
