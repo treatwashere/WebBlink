@@ -1,0 +1,1 @@
+const {withAuth}=require('../../middleware/auth'); const {getUserById}=require('../../models/User'); export default withAuth(async(req,res)=>res.status(200).json({user:await getUserById(req.user.userId)}));
