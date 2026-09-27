@@ -1,0 +1,1 @@
+export default function Login(){return <main style={{fontFamily:'system-ui',maxWidth:480,margin:'120px auto',textAlign:'center'}}><h1>Sign in to WebBlink</h1><p>Continue with GitHub to manage your sites and deployments.</p><a href={(process.env.NEXT_PUBLIC_API_URL||'http://localhost:3000')+'/api/auth/github'}>Continue with GitHub</a></main>}
