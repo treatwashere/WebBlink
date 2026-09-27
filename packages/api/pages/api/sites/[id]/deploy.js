@@ -1,0 +1,2 @@
+const {withAuth}=require('../../../../middleware/auth'); const {getSiteById}=require('../../../../models/Site'); const {createDeployment}=require('../../../../models/Deployment');
+export default withAuth(async(req,res)=>{if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});const site=await getSiteById(req.query.id,req.user.userId);if(!site)return res.status(404).json({error:'Site not found'});const d=await createDeployment({siteId:site.id,branch:'main'});return res.status(202).json({deploymentId:d.id,status:d.status})});
