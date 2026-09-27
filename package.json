@@ -1,0 +1,7 @@
+{
+  "name":"webblink","version":"1.0.0","private":true,
+  "workspaces":["packages/web","packages/dashboard","packages/api","packages/cli","packages/runtime","packages/actions"],
+  "scripts":{"dev":"lerna run dev --parallel","build":"lerna run build","test":"lerna run test","lint":"lerna run lint","format":"prettier --write \"packages/**/*.{js,jsx,ts,tsx,json,css,md}\"","db:migrate":"cd packages/api && npm run migrate","db:seed":"cd packages/api && npm run seed"},
+  "devDependencies":{"lerna":"^7.0.0","prettier":"^3.0.0","eslint":"^8.0.0"},
+  "engines":{"node":">=18.0.0","npm":">=9.0.0"}
+}
