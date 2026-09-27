@@ -1,0 +1,2 @@
+const {withAuth}=require('../../../../../middleware/auth'); const {getSiteById}=require('../../../../../models/Site'); const {deleteEnv}=require('../../../../../models/EnvironmentVariable');
+export default withAuth(async(req,res)=>{if(req.method!=='DELETE')return res.status(405).json({error:'Method not allowed'});if(!await getSiteById(req.query.id,req.user.userId))return res.status(404).json({error:'Site not found'});return (await deleteEnv(req.query.id,req.query.key))?res.status(204).end():res.status(404).json({error:'Variable not found'})});
