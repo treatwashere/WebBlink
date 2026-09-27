@@ -1,0 +1,1 @@
+const {withAuth}=require('../../../middleware/auth'); const {getDeploymentById}=require('../../../models/Deployment'); export default withAuth(async(req,res)=>{if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});const d=await getDeploymentById(req.query.id,req.user.userId);return d?res.json(d):res.status(404).json({error:'Deployment not found'})});
