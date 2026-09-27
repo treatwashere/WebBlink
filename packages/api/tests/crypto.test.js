@@ -1,0 +1,1 @@
+const {encrypt,decrypt}=require('../lib/crypto'); test('encrypt/decrypt round trip',()=>{const value='super-secret';expect(decrypt(encrypt(value))).toBe(value)})
