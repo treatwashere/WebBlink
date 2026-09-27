@@ -1,0 +1,1 @@
+{"name":"@webblink/cli","version":"1.0.0","private":true,"bin":{"webblink":"src/index.js"},"scripts":{"test":"jest","lint":"eslint ."},"dependencies":{"chalk":"^5.4.1","commander":"^12.1.0","inquirer":"^12.2.0","ora":"^8.1.1"}}
