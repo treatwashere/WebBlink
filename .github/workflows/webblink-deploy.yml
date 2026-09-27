@@ -1,0 +1,24 @@
+name: WebBlink Deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: WebBlink deployment callback
+        if: github.ref == 'refs/heads/main'
+        run: echo "WebBlink deployment completed for $GITHUB_SHA"
