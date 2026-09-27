@@ -1,3 +1,4 @@
-const {withSession}=require('../lib/auth');
-function withAuth(handler){return async(req,res)=>{const user=await withSession(req,res);if(!user)return res.status(401).json({error:'Authentication required'});req.user=user;return handler(req,res)}}
+const {withSession}=require('../lib/auth'); const {getRedis}=require('../lib/redis');
+async function rateLimit(req){const r=getRedis();if(!r)return true;const windowSec=Number(process.env.RATE_LIMIT_WINDOW||900);const max=Number(process.env.RATE_LIMIT_REQUESTS||100);const ip=(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').split(',')[0];const key='rl:'+ip;const count=await r.incr(key);if(count===1)await r.expire(key,windowSec);return count<=max}
+function withAuth(handler){return async(req,res)=>{if(!(await rateLimit(req)))return res.status(429).json({error:'Rate limit exceeded'});const user=await withSession(req,res);if(!user)return res.status(401).json({error:'Authentication required'});req.user=user;return handler(req,res)}}
 module.exports={withAuth};
