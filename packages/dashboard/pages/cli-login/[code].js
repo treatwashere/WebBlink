@@ -1,0 +1,1 @@
+import {useEffect} from 'react'; export default function CliLogin(){useEffect(()=>{window.location.href=(process.env.NEXT_PUBLIC_API_URL||'http://localhost:3000')+'/api/auth/github?cliCode='+encodeURIComponent(window.location.pathname.split('/').pop())},[]);return <main style={{fontFamily:'system-ui',padding:40}}>Signing in to WebBlink CLI…</main>}
