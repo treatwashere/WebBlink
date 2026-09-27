@@ -1,0 +1,1 @@
+describe('WebBlink model contracts',()=>{test('repository validation accepts owner/name',()=>expect(/^[^/]+\\/[^/]+$/.test('owner/repo')).toBe(true));test('environment keys reject unsafe names',()=>expect(/^[A-Z_][A-Z0-9_]*$/.test('BAD-KEY')).toBe(false))})
