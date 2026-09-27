@@ -1,0 +1,7 @@
+const {query}=require('../db');
+async function getAllSites(userId){return (await query('SELECT * FROM sites WHERE user_id=$1 ORDER BY created_at DESC',[userId])).rows}
+async function getSiteById(id,userId){const r=await query('SELECT * FROM sites WHERE id=$1 AND user_id=$2',[id,userId]);return r.rows[0]||null}
+async function createSite(v){const r=await query('INSERT INTO sites(user_id,name,repository,framework,build_command,output_directory,domains) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *',[v.userId,v.name,v.repository,v.framework||'static',v.buildCommand||'npm run build',v.outputDirectory||'dist',[v.domain]]);return r.rows[0]}
+async function updateSite(id,userId,v){const r=await query('UPDATE sites SET name=COALESCE($3,name),framework=COALESCE($4,framework),build_command=COALESCE($5,build_command),output_directory=COALESCE($6,output_directory),domains=COALESCE($7,domains),updated_at=NOW() WHERE id=$1 AND user_id=$2 RETURNING *',[id,userId,v.name,v.framework,v.buildCommand,v.outputDirectory,v.domains]);return r.rows[0]||null}
+async function deleteSite(id,userId){return (await query('DELETE FROM sites WHERE id=$1 AND user_id=$2 RETURNING id',[id,userId])).rowCount>0}
+module.exports={getAllSites,getSiteById,createSite,updateSite,deleteSite};
