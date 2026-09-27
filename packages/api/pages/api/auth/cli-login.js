@@ -1,0 +1,2 @@
+const crypto=require('crypto'); const {set}=require('../../../lib/redis');
+export default async function handler(req,res){if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});const code=crypto.randomBytes(4).toString('hex');await set('cli:'+code,JSON.stringify({status:'pending'}),600);return res.json({code,loginUrl:(process.env.NEXT_PUBLIC_APP_URL||'http://localhost:3001')+'/cli-login/'+code})}
