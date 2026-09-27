@@ -1,0 +1,2 @@
+const {withAuth}=require('../../../../middleware/auth'); const {getSiteById}=require('../../../../models/Site'); const {getDeployments}=require('../../../../models/Deployment');
+export default withAuth(async(req,res)=>{if(req.method!=='GET')return res.status(405).json({error:'Method not allowed'});if(!await getSiteById(req.query.id,req.user.userId))return res.status(404).json({error:'Site not found'});return res.json({deployments:await getDeployments(req.user.userId,req.query.id)})});
